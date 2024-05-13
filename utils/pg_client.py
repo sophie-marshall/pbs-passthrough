@@ -49,32 +49,20 @@ class PGClient:
         Args:
             table (str): Name of table to query
             assets (list): List of dictionaries with data to insert into table 
-
-        Query used to create Postgres Table:
-            CREATE TABLE grantchester (
-                id UUID DEFAULT uuid_generate_v4(),
-                actor_actress VARCHAR(100),
-                character VARCHAR (100),
-                imdb_link VARCHAR(100),
-                mini_bio VARCHAR(100),
-                face BYTEA,
-                facial_embedding VECTOR(512),
-                PRIMARY KEY (id)
-            );
         """
         cur = self.conn.cursor()
         try:
             for asset in assets:
                 cur.execute (
                     f"""INSERT INTO {table}
-                        (actor_actress, character, imdb_link, mini_bio, face, facial_embedding)
+                        (actor_actress, character, link, about, face, facial_embedding)
                         VALUES (%s, %s, %s, %s, %s, %s)
                     """,
                     (
                         asset["actor_actress"],
                         asset["character"],
-                        asset["imdb_link"],
-                        asset["mini_bio"],
+                        asset["link"],
+                        asset["about"],
                         asset["face"],
                         asset["facial_embedding"],
                     ),
