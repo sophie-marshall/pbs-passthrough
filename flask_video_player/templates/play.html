@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player</title>
+    <style>
+        #frameNumber {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Now Playing: {{ filename }}</h1>
+    <video id="videoPlayer" width="640" height="480" controls>
+        <source src="/video/{{ filename }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div id="frameNumber"></div>
+
+    <script>
+        const video = document.getElementById('videoPlayer');
+        const frameNumberElement = document.getElementById('frameNumber');
+        const matchFrames = [];
+        for (let i = 0; i <= 1000; i += 10) {
+            matchFrames.push(i);
+        }
+        let lastMatchedFrame = null;
+
+        video.addEventListener('timeupdate', function() {
+            const currentTime = video.currentTime;
+            const frameRate = 30; // Change this to match the frame rate of your video
+            const frameNumber = Math.floor(currentTime * frameRate);
+            
+            // Check if the current frame number matches any in the list
+            if (matchFrames.includes(frameNumber)) {
+                // Display the matched frame number if it's different from the last one
+                if (frameNumber !== lastMatchedFrame) {
+                    frameNumberElement.textContent = `Frame number ${frameNumber} matched!\nNew Content!`;
+                    lastMatchedFrame = frameNumber;
+                }
+            } else if (lastMatchedFrame !== null) {
+                // Check if there was a previous match
+                // Clear the displayed message only if there was a previous match and no new match found
+                frameNumberElement.textContent = `Frame number ${lastMatchedFrame} matched!\nNew Content`;
+            }
+        });
+    </script>
+
+</body>
+</html>
+
