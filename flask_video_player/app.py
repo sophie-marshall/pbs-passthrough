@@ -1,10 +1,13 @@
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, render_template, send_from_directory
 import os
+import pandas as pd 
 
 app = Flask(__name__)
 
 # Define the directory where your videos are stored
 VIDEO_DIRECTORY = 'videos'
+DATA_DIRECTORY = "data"
+
 
 @app.route('/')
 def index():
@@ -21,6 +24,10 @@ def play(filename):
 def video(filename):
     # Serve the video file
     return send_from_directory(VIDEO_DIRECTORY, filename)
+
+@app.route("/data/<filename>")
+def data(filename):
+    return send_from_directory(DATA_DIRECTORY, filename)
 
 if __name__ == '__main__':
     app.run(debug=True)

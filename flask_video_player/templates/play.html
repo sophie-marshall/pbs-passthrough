@@ -6,12 +6,22 @@
     <title>Video Player</title>
     <style>
         #frameNumber {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: rgba(255, 255, 255, 0.7);
-            padding: 5px;
-            border-radius: 5px;
+            margin-top: 20px;
+        }
+        #csvData {
+            margin-top: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
@@ -22,36 +32,74 @@
         Your browser does not support the video tag.
     </video>
     <div id="frameNumber"></div>
-
+    <div id="frameInfo"></div> <!-- New div for frame info including confidence score -->
+    <div id="csvData"></div>
     <script>
         const video = document.getElementById('videoPlayer');
         const frameNumberElement = document.getElementById('frameNumber');
-        const matchFrames = [];
-        for (let i = 0; i <= 1000; i += 10) {
-            matchFrames.push(i);
+        const frameInfoElement = document.getElementById('frameInfo'); // Reference to the new div
+        const csvDataElement = document.getElementById("csvData");
+
+        // Function to calculate and display frame range
+        function displayFrameRange(currentFrame) {
+            const lowerBound = Math.max(currentFrame - 50, 0); // Ensure lower bound is not negative
+            const upperBound = currentFrame + 50;
+            frameNumberElement.textContent = `Current Frame Number: ${currentFrame}, Frame Range: ${lowerBound}-${upperBound}`;
         }
-        let lastMatchedFrame = null;
+
+        // Function to display confidence score
+        function displayConfidenceScore(score) {
+            frameInfoElement.textContent = `Confidence Score: ${score}`;
+        }
+
+        // fetch and display the data 
+        fetch("/data/confident_metadata.csv")
+            .then(response => response.text())
+            .then(csv => {
+                // Parse CSV data
+                const rows = csv.split('\n');
+                let html = '<table>';
+                rows.forEach((row, rowIndex) => {
+                    const columns = row.split(',');
+                    if (rowIndex === 0) {
+                        // Use <th> tags for the header row
+                        html += '<tr>';
+                        columns.forEach(column => {
+                            html += `<th>${column}</th>`;
+                        });
+                        html += '</tr>';
+                    } else {
+                        // Use <td> tags for the data rows
+                        html += '<tr>';
+                        columns.forEach(column => {
+                            html += `<td>${column}</td>`;
+                        });
+                        html += '</tr>';
+                    }
+                });
+                html += '</table>';
+                csvDataElement.innerHTML = html;
+
+                // Display frame range initially
+                displayFrameRange(0); // Assuming video starts from frame 0
+            })
+            .catch(error => {
+                console.error("Error fetching CSV data:", error);
+                csvDataElement.textContent = "Error fetching CSV data";
+            });
 
         video.addEventListener('timeupdate', function() {
             const currentTime = video.currentTime;
             const frameRate = 30; // Change this to match the frame rate of your video
-            const frameNumber = Math.floor(currentTime * frameRate);
+            const currentFrame = Math.floor(currentTime * frameRate);
             
-            // Check if the current frame number matches any in the list
-            if (matchFrames.includes(frameNumber)) {
-                // Display the matched frame number if it's different from the last one
-                if (frameNumber !== lastMatchedFrame) {
-                    frameNumberElement.textContent = `Frame number ${frameNumber} matched!\nNew Content!`;
-                    lastMatchedFrame = frameNumber;
-                }
-            } else if (lastMatchedFrame !== null) {
-                // Check if there was a previous match
-                // Clear the displayed message only if there was a previous match and no new match found
-                frameNumberElement.textContent = `Frame number ${lastMatchedFrame} matched!\nNew Content`;
-            }
+            // Print the current frame number and frame range below the video
+            displayFrameRange(currentFrame);
+
+            // Assuming you have a way to get the confidence score, call the function to display it
+            const confidenceScore = 0.75; // Replace with your confidence score
+            displayConfidenceScore(confidenceScore);
         });
     </script>
-
 </body>
 </html>
-
