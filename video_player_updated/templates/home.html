@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PBS Passthrough</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+        .header-bar {
+            background-color: #2638c4;
+            color: white;
+            height: 50px;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex; 
+            justify-content: left; 
+            align-items: center; 
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-bar">
+        <h1>PBS Passthrough</h1>
+    </div>
+    <h1>Welcome to PBS Passthrough</h1>
+    <p>
+        Something about the goal of this project and what it can do 
+    </p>
+    <h3>Available Videos:</h3>
+    <ul>
+        {% for video in video_files %}
+            <li><a href="/passthrough/{{ video }}">{{ video }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
