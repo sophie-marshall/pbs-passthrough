@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/passthrough_styles.css') }}">
+</head>
+<body>
+    <div class="link-container">
+        <p><a href="/">/</a></p>
+        <p><a href="/about">ABOUT</a></p>
+        <p><a href="/passthrough">DEMO</a></p>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <h1>passthrough demo.</h1>
+    <h3>grantchester</h3>
+    <div class="description">
+        <span class="tag">season 1</span>
+        <span class="tag">masterpiece mysteries</span>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="content-box">
+        <div class="content-container">
+            <pre><code id="queryResult"></code></pre>
+            <video id="videoPlayer" controls>
+                <source src="{{ url_for('demo.demo') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="content-container">
+            <canvas id="frameCapture"> </canvas>
+        </div>
+    </div>
+
+    <p id="frameNumber">frame number: </p>
+    <script src="{{ url_for('static', filename='js/process_video.js') }}"></script>
+</body>
+</html>
