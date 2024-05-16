@@ -1,0 +1,7 @@
+flask
+boto3
+python-dotenv
+opencv-python-headless
+psycopg2-binary
+keras-facenet
+mtcnn
