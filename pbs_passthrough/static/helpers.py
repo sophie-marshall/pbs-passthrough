@@ -1,7 +1,22 @@
 from mtcnn.mtcnn import MTCNN
 from keras_facenet import FaceNet
-import cv2 as cv 
+import cv2 as cv
 import numpy as np 
+
+def convert_image_to_bytea(image_array):
+    """
+    Function to convert an image represented as an array into bytes 
+
+    Args:
+        image_array (array): Array representation of an image 
+    
+    Returns:
+        image bytes (bytes): Bytes representation f the image 
+    """
+    success, encoding = cv.imencode(".jpg", image_array)
+    if not success:
+        return None
+    return encoding.tobytes()
 
 class FacialRecognition:
 

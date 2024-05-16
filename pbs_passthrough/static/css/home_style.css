@@ -1,0 +1,41 @@
+.home-content {
+    width: 95%;
+    padding: 20px; 
+    display: flex;
+    justify-content: flex-end; 
+    align-items: flex-start;  
+    margin: auto;
+    position: absolute; 
+    bottom: 0; 
+    flex-direction: column;
+}
+
+.description {
+    padding-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.description .tag {
+    display: inline-flex;
+}
+
+.main-title h1{
+    font-size: 200px;
+    line-height: 1px;
+    font-weight: 500;
+}
+
+.main-title h2{
+    font-size: 50px;
+    line-height: 1px;
+    font-weight: 300;
+}
+
+hr {
+    width: 132%;
+    border: none;
+    height: 2px; 
+    background-color: black; /
+
+}
