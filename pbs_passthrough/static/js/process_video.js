@@ -22,7 +22,7 @@ function toggleDisplay() {
     }
 }
 
-// Track time to help calculate frame
+// track time to help calculate frame
 video.addEventListener('timeupdate', function() {
     // Calculate and display frame number
     const frameNumber = Math.floor(video.currentTime * 30); // Assuming 30 frames per second
@@ -72,6 +72,7 @@ video.addEventListener('timeupdate', function() {
                 .then(data => {
                     const formattedJson = JSON.stringify(data, null, 2);
                     queryResult.textContent = formattedJson
+                    
                 })
                 .catch(error => {
                     console.error("Error querying database:", error)
