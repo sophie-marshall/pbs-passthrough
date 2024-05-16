@@ -29,6 +29,7 @@ body {
     transition: color, text-decoration;
 }
 
+.nav-links a.active,
 .nav-links a:hover {
     text-decoration: line-through;
     font-style: italic;
